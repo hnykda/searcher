@@ -19,7 +19,7 @@ const cohere = new CohereClient({
 export async function GET(req: NextRequest) {
   // Parse the search query from the URL query parameters
   const query = req.nextUrl.searchParams.get("query");
-  const topK = req.nextUrl.searchParams.get("topK");
+  const topK = req.nextUrl.searchParams.get("topK") ?? "2";
   if (!query) {
     return new Response(
       JSON.stringify({ error: "Query parameter is required" }),
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
   // Use Pinecone to query the index with the embedding
   const searchResults = await index.query({
     vector: embedding,
-    topK: topK ? parseInt(topK) : 1,
+    topK: parseInt(topK),
   });
 
   if (!searchResults.matches) {
