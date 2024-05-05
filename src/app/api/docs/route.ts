@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
   // Use Cohere to convert the query into an embedding
   const embeddingResponse = await cohere.embed({
     texts: [query],
-    model: "embed-multilingual-v3.0",
+    model: "embed-english-v3.0",
     inputType: "search_query",
     embeddingTypes: ["float"],
   });
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
   // Use Pinecone to query the index with the embedding
   const searchResults = await index.query({
     vector: embedding,
-    topK: topK ? parseInt(topK) : 2,
+    topK: topK ? parseInt(topK) : 1,
   });
 
   if (!searchResults.matches) {
