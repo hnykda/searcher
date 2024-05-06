@@ -3,16 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { CohereClient } from "cohere-ai";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!,
-);
-
 const cohere = new CohereClient({
   token: process.env.COHERE_API_KEY,
 });
 
 export async function GET(req: NextRequest) {
+  const supabase = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!,
+  );
+
   // Parse the search query from the URL query parameters
   const query = req.nextUrl.searchParams.get("query");
   const docType = req.nextUrl.searchParams.get("docType");
